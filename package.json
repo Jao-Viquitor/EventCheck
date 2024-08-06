@@ -8,7 +8,8 @@
     "quave-check": "npm run quave-eslint && npm run quave-prettier"
   },
   "dependencies": {
-    "@babel/runtime": "^7.24.7",
+    "@babel/runtime": "^7.25.0",
+    "meteor": "^3.0.1",
     "meteor-node-stubs": "^1.2.9",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
@@ -22,11 +23,11 @@
   "devDependencies": {
     "@quave/eslint-config-quave": "^3.0.0-beta.0",
     "@types/meteor": "^2.9.8",
-    "autoprefixer": "^10.4.19",
+    "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
     "lefthook": "^1.6.18",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.4"
+    "postcss": "^8.4.41",
+    "tailwindcss": "^3.4.7"
   },
   "eslintConfig": {
     "extends": [
