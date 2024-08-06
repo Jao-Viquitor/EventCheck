@@ -75,14 +75,14 @@ export const PeopleList = ({ people }) => {
     };
 
     return (
-        <div className="min-h-screen bg-secondary flex flex-col items-center justify-center dark:bg-gray-950">
-            <div className="dark:bg-gray-900 bg-hoverSecondary p-2 pt-6 pb-6 rounded-lg shadow-lg text-center text-primary">
+        <div className="min-h-screen bg-secondary flex flex-col items-center justify-start dark:bg-gray-950">
+            <div className="w-1/3 dark:bg-gray-900 bg-hoverSecondary p-2 pt-6 pb-6 rounded-lg shadow-lg text-center text-primary">
                 <input
                     type="text"
                     value={searchQuery}
                     onChange={handleSearchChange}
                     placeholder="Search..."
-                    className="mb-4 p-2 rounded border border-gray-300"
+                    className="mb-4 p-2 rounded border border-gray-300 me-1"
                 />
                 <select value={filter} onChange={handleFilterChange} className="mb-4 p-2 rounded border border-gray-300">
                     <option value="all">All</option>
@@ -92,12 +92,14 @@ export const PeopleList = ({ people }) => {
                 <ul className="divide-y divide-gray-200 text-secondary dark:text-primary">
                     {currentPeople.map((person) => (
                         <li key={person._id} className="py-4">
-                            <div className="flex justify-between items-center">
+                            <div className="flex justify-between">
                                 <div>
-                                    <p className="font-semibold">{`${person.firstName} ${person.lastName}`}</p>
-                                    <p>{person.companyName} - {person.title}</p>
-                                    <p>Check-in: {formatDate(person.checkInDate)}</p>
-                                    <p>Check-out: {formatDate(person.checkOutDate)}</p>
+                                    <div className="flex justify-center">
+                                        <p className="font-semibold text-center">{`${person.firstName} ${person.lastName}`}</p>
+                                    </div>
+                                    <p className="text-left">{person.companyName} - {person.title}</p>
+                                    <p className="text-left">Check-in: {formatDate(person.checkInDate)}</p>
+                                    <p className="text-left">Check-out: {formatDate(person.checkOutDate)}</p>
                                 </div>
                                 <div>
                                     {!person.checkInDate && (
