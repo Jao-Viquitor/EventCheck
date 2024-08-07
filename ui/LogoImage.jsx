@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function LogoImage() {
+export function LogoImage() {
     return (
         <div className="w-24 h-24 mx-auto">
             <img
