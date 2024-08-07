@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
+import {CheckInButton, CheckOutButton} from "./CheckIn.jsx";
+import {SearchInput} from "./SearchInput";
+import {Pagination} from "./Pagination";
+import {SelectFilter} from "./SelectFilter";
 
 export const PeopleList = ({ people }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -56,6 +60,12 @@ export const PeopleList = ({ people }) => {
         return matchesSearchQuery && matchesFilter;
     });
 
+    const filterOptions = [
+        { value: 'all', label: 'All' },
+        { value: 'checkedIn', label: 'Checked In' },
+        { value: 'notCheckedIn', label: 'Not Checked In' },
+    ];
+
     const indexOfLastPerson = currentPage * itemsPerPage;
     const indexOfFirstPerson = indexOfLastPerson - itemsPerPage;
     const currentPeople = filteredPeople.slice(indexOfFirstPerson, indexOfLastPerson);
@@ -76,19 +86,12 @@ export const PeopleList = ({ people }) => {
 
     return (
         <div className="min-h-screen bg-secondary flex flex-col items-center justify-start dark:bg-gray-950">
-            <div className="w-1/3 dark:bg-gray-900 bg-hoverSecondary p-2 pt-6 pb-6 rounded-lg shadow-lg text-center text-primary">
-                <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    placeholder="Search..."
-                    className="mb-4 p-2 rounded border border-gray-300 me-1"
-                />
-                <select value={filter} onChange={handleFilterChange} className="mb-4 p-2 rounded border border-gray-300">
-                    <option value="all">All</option>
-                    <option value="checkedIn">Checked In</option>
-                    <option value="notCheckedIn">Not Checked In</option>
-                </select>
+            <div className="w-7/12 dark:bg-gray-900 bg-hoverSecondary p-2 pt-6 pb-6 rounded-lg shadow-lg text-center text-primary">
+                <SearchInput searchQuery={searchQuery} handleSearchChange={handleSearchChange} />
+                <SelectFilter
+                    value={filter}
+                    onChange={handleFilterChange}
+                    options={filterOptions}/>
                 <ul className="divide-y divide-gray-200 text-secondary dark:text-primary">
                     {currentPeople.map((person) => (
                         <li key={person._id} className="py-4">
@@ -102,44 +105,25 @@ export const PeopleList = ({ people }) => {
                                     <p className="text-left">Check-out: {formatDate(person.checkOutDate)}</p>
                                 </div>
                                 <div>
-                                    {!person.checkInDate && (
-                                        <button
-                                            onClick={() => handleCheckIn(person._id)}
-                                            className="bg-blue-500 text-white px-4 py-2 rounded"
-                                        >
-                                            Check-in {person.firstName} {person.lastName}
-                                        </button>
-                                    )}
-                                    {isCheckedInOverFiveSeconds(person.checkInDate) && !person.checkOutDate && (
-                                        <button
-                                            onClick={() => handleCheckOut(person._id)}
-                                            className="bg-red-500 text-white px-4 py-2 rounded"
-                                        >
-                                            Check-out {person.firstName} {person.lastName}
-                                        </button>
+                                    {!person.checkInDate ? (
+                                        <CheckInButton person={person} handleCheckIn={handleCheckIn} />
+                                    ) : (
+                                        isCheckedInOverFiveSeconds(person.checkInDate) &&
+                                        !person.checkOutDate && (
+                                            <CheckOutButton person={person} handleCheckOut={handleCheckOut} />
+                                        )
                                     )}
                                 </div>
                             </div>
                         </li>
                     ))}
                 </ul>
-                <div className="flex justify-between mt-4">
-                    <button
-                        onClick={handlePreviousPage}
-                        disabled={currentPage === 1}
-                        className="bg-gray-500 text-white px-4 py-2 rounded disabled:opacity-50"
-                    >
-                        Previous
-                    </button>
-                    <span className="text-white">Page {currentPage} of {totalPages}</span>
-                    <button
-                        onClick={handleNextPage}
-                        disabled={currentPage === totalPages}
-                        className="bg-gray-500 text-white px-4 py-2 rounded disabled:opacity-50"
-                    >
-                        Next
-                    </button>
-                </div>
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    handlePreviousPage={handlePreviousPage}
+                    handleNextPage={handleNextPage}
+                />
             </div>
         </div>
     );

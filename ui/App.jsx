@@ -5,7 +5,8 @@ import { People } from "../people/people";
 import { EventSelector } from './EventSelector.jsx';
 import { PeopleList } from './PeopleList.jsx';
 import { EventSummary } from './EventSummary.jsx';
-import LogoImage from "./LogoImage";
+import LogoImage from "./LogoImage.jsx";
+import {LoadingScreen} from "./Loading.jsx";
 
 export const App = () => {
     const [selectedEvent, setSelectedEvent] = useState('');
@@ -22,10 +23,7 @@ export const App = () => {
     });
 
     if (isLoading) return (
-        <div
-            className="min-h-screen bg-secondary flex items-center justify-center dark:bg-gray-950">
-                <h1 className="mt-4 text-xl text-secondary dark:text-primary font-bold">Loading...</h1>
-        </div>
+        <LoadingScreen/>
     );
 
     return (
@@ -46,17 +44,13 @@ export const App = () => {
                 </div>
                 <div className="ps-24">
                     {selectedEvent && (
-                        <>
-                            <EventSummary people={people}/>
-                        </>
+                        <EventSummary people={people}/>
                     )}
                 </div>
             </div>
 
             {selectedEvent && (
-                <>
-                    <PeopleList people={people}/>
-                </>
+                <PeopleList people={people}/>
             )}
         </div>
 

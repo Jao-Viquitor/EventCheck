@@ -1,12 +1,9 @@
 import React from 'react';
+import {Label} from "./Label.jsx";
 
-export const EventSelector = ({ communities, selectedEvent, onSelect }) => {
-    return (
+export const EventSelector = ({ communities, selectedEvent, onSelect }) => (
         <div className="max-w-sm mx-auto text-start pt-6 ms-2">
-            <label htmlFor="event-select"
-                   className="block mb-2 text-sm font-medium text-secondary dark:text-primary">
-                Select an Event
-            </label>
+            <Label htmlFor="event-select">Select an Event</Label>
             <select
                 id="event-select"
                 value={selectedEvent}
@@ -24,4 +21,3 @@ export const EventSelector = ({ communities, selectedEvent, onSelect }) => {
 
         </div>
     );
-};
