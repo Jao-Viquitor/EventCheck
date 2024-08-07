@@ -1,27 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
-import {CheckInButton, CheckOutButton} from "./CheckIn.jsx";
-import {SearchInput} from "./SearchInput";
-import {Pagination} from "./Pagination";
-import {SelectFilter} from "./SelectFilter";
+import { CheckInButton, CheckOutButton } from './CheckIn.jsx';
+import { SearchInput } from './SearchInput.jsx';
+import { Pagination } from './Pagination.jsx';
+import { SelectFilter } from './SelectFilter.jsx';
 
 export const PeopleList = ({ people }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
     const [filter, setFilter] = useState('all');
+    const [checkInTimes, setCheckInTimes] = useState({});
     const itemsPerPage = 10;
 
+    useEffect(() => {
+        const initialCheckInTimes = people.reduce((acc, person) => {
+            if (person.checkInDate) {
+                acc[person._id] = new Date(person.checkInDate);
+            }
+            return acc;
+        }, {});
+        setCheckInTimes(initialCheckInTimes);
+    }, [people]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCheckInTimes((prevTimes) => ({ ...prevTimes }));
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
     const handleCheckIn = (personId) => {
-        Meteor.call('people.checkIn', personId);
+        Meteor.call('people.checkIn', personId, (error, result) => {
+            if (!error) {
+                setCheckInTimes({
+                    ...checkInTimes,
+                    [personId]: new Date(),
+                });
+            }
+        });
     };
 
     const handleCheckOut = (personId) => {
-        Meteor.call('people.checkOut', personId);
+        Meteor.call('people.checkOut', personId, (error, result) => {
+            if (!error) {
+                setCheckInTimes({
+                    ...checkInTimes,
+                    [personId]: null,
+                });
+            }
+        });
     };
 
     const formatDate = (date) => {
         if (!date) return 'N/A';
-        return date.toLocaleString('en-US', {
+        return new Date(date).toLocaleString('en-US', {
             month: '2-digit',
             day: '2-digit',
             year: 'numeric',
@@ -31,7 +64,8 @@ export const PeopleList = ({ people }) => {
         });
     };
 
-    const isCheckedInOverFiveSeconds = (checkInDate) => {
+    const isCheckedInOverFiveSeconds = (personId) => {
+        const checkInDate = checkInTimes[personId];
         if (!checkInDate) return false;
         const fiveSecondsAgo = new Date(Date.now() - 5000);
         return checkInDate < fiveSecondsAgo;
@@ -39,12 +73,12 @@ export const PeopleList = ({ people }) => {
 
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
-        setCurrentPage(1); // Reset to first page on new search
+        setCurrentPage(1);
     };
 
     const handleFilterChange = (event) => {
         setFilter(event.target.value);
-        setCurrentPage(1); // Reset to first page on new filter
+        setCurrentPage(1);
     };
 
     const filteredPeople = people.filter(person => {
@@ -91,7 +125,7 @@ export const PeopleList = ({ people }) => {
                 <SelectFilter
                     value={filter}
                     onChange={handleFilterChange}
-                    options={filterOptions}/>
+                    options={filterOptions} />
                 <ul className="divide-y divide-gray-200 text-secondary dark:text-primary">
                     {currentPeople.map((person) => (
                         <li key={person._id} className="py-4">
@@ -108,7 +142,7 @@ export const PeopleList = ({ people }) => {
                                     {!person.checkInDate ? (
                                         <CheckInButton person={person} handleCheckIn={handleCheckIn} />
                                     ) : (
-                                        isCheckedInOverFiveSeconds(person.checkInDate) &&
+                                        isCheckedInOverFiveSeconds(person._id) &&
                                         !person.checkOutDate && (
                                             <CheckOutButton person={person} handleCheckOut={handleCheckOut} />
                                         )

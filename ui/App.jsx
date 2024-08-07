@@ -5,7 +5,7 @@ import { People } from "../people/people";
 import { EventSelector } from './EventSelector.jsx';
 import { PeopleList } from './PeopleList.jsx';
 import { EventSummary } from './EventSummary.jsx';
-import LogoImage from "./LogoImage.jsx";
+import {LogoImage} from "./LogoImage.jsx";
 import {LoadingScreen} from "./Loading.jsx";
 
 export const App = () => {
