@@ -16,7 +16,10 @@ export const EventSummary = ({ people }) => {
             <p className="text-xs sm:text-sm lg:text-base text-secondary dark:text-primary mt-1 me-1">
                 People in the event right now: {peopleInEvent}
             </p>
-            <p className="text-xs sm:text-sm lg:text-base text-secondary dark:text-primary mt-1 me-1 whitespace-pre-line break-words">
+            <p
+                className="text-xs sm:text-sm lg:text-base text-secondary dark:text-primary mt-1 me-1 whitespace-pre-wrap break-words max-w-full"
+                style={{ maxWidth: '350px' }}
+            >
                 People by company in the event right now: {Object.entries(peopleByCompany).map(([companyName, count]) => (
                 <span key={companyName}>{companyName} ({count}), </span>
             ))}
