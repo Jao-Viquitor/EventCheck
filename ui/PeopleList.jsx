@@ -121,7 +121,7 @@ export const PeopleList = ({ people }) => {
 
     return (
         <div className="min-h-screen bg-secondary flex flex-col items-center justify-start dark:bg-gray-950">
-            <div className="w-11/12 sm:w-9/12 md:w-7/12 dark:bg-gray-900 bg-hoverSecondary p-8 pt-6 pb-6 rounded-lg shadow-lg text-center text-primary">
+            <div className="w-11/12 sm:w-9/12 md:9/12 dark:bg-gray-900 bg-hoverSecondary mb-24 p-8 pt-6 pb-6 rounded-lg shadow-lg text-center text-primary">
                 <SearchInput searchQuery={searchQuery} handleSearchChange={handleSearchChange} />
                 <SelectFilter
                     value={filter}
