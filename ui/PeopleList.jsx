@@ -121,7 +121,7 @@ export const PeopleList = ({ people }) => {
 
     return (
         <div className="min-h-screen bg-secondary flex flex-col items-center justify-start dark:bg-gray-950">
-            <div className="w-7/12 dark:bg-gray-900 bg-hoverSecondary p-8 pt-6 pb-6 rounded-lg shadow-lg text-center text-primary">
+            <div className="w-11/12 sm:w-9/12 md:w-7/12 dark:bg-gray-900 bg-hoverSecondary p-8 pt-6 pb-6 rounded-lg shadow-lg text-center text-primary">
                 <SearchInput searchQuery={searchQuery} handleSearchChange={handleSearchChange} />
                 <SelectFilter
                     value={filter}
@@ -130,7 +130,7 @@ export const PeopleList = ({ people }) => {
                 <ul className="divide-y divide-gray-200 text-secondary dark:text-primary">
                     {currentPeople.map((person) => (
                         <li key={person._id} className="py-4">
-                            <div className="flex justify-between">
+                            <div className="flex flex-col sm:flex-row justify-between">
                                 <div>
                                     <div className="flex justify-center">
                                         <p className="font-semibold text-center">{`${person.firstName} ${person.lastName}`}</p>
@@ -139,7 +139,7 @@ export const PeopleList = ({ people }) => {
                                     <p className="text-left">Check-in: {formatDate(person.checkInDate)}</p>
                                     <p className="text-left">Check-out: {formatDate(person.checkOutDate)}</p>
                                 </div>
-                                <div>
+                                <div className="mt-4 sm:mt-0">
                                     {!person.checkInDate ? (
                                         <CheckInButton person={person} handleCheckIn={handleCheckIn} />
                                     ) : (
