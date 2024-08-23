@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Communities } from '../communities/communities';
 import { People } from "../people/people";
@@ -7,9 +7,25 @@ import { PeopleList } from './PeopleList.jsx';
 import { EventSummary } from './EventSummary.jsx';
 import { LogoImage } from "./LogoImage.jsx";
 import { LoadingScreen } from "./Loading.jsx";
+import { ThemeToggle } from "./ThemeToggle.jsx";
 
 export const App = () => {
     const [selectedEvent, setSelectedEvent] = useState('');
+    const [isDark, setIsDark] = useState(false);
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme');
+        setIsDark(savedTheme === 'dark');
+    }, []);
+
+    useEffect(() => {
+        document.documentElement.classList.toggle('dark', isDark);
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }, [isDark]);
+
+    const toggleTheme = () => {
+        setIsDark(!isDark);
+    };
 
     const { communities, people, isLoading } = useTracker(() => {
         const communityHandler = Meteor.subscribe('communities');
@@ -29,6 +45,7 @@ export const App = () => {
     return (
         <div
             className="min-h-screen bg-secondary items-center justify-center dark:bg-gray-950">
+            <ThemeToggle isDark={isDark} toggleTheme={toggleTheme}/>
             <div
                 className="flex flex-col lg:flex-row xl:flex-row  items-center justify-center pt-24 pb-6">
                 <div
