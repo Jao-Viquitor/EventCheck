@@ -5,8 +5,8 @@ import { People } from "../people/people";
 import { EventSelector } from './EventSelector.jsx';
 import { PeopleList } from './PeopleList.jsx';
 import { EventSummary } from './EventSummary.jsx';
-import {LogoImage} from "./LogoImage.jsx";
-import {LoadingScreen} from "./Loading.jsx";
+import { LogoImage } from "./LogoImage.jsx";
+import { LoadingScreen } from "./Loading.jsx";
 
 export const App = () => {
     const [selectedEvent, setSelectedEvent] = useState('');
@@ -23,36 +23,36 @@ export const App = () => {
     });
 
     if (isLoading) return (
-        <LoadingScreen/>
+        <LoadingScreen />
     );
 
     return (
-        <div className="min-h-screen bg-secondary items-center dark:bg-gray-950">
+        <div
+            className="min-h-screen bg-secondary items-center justify-center dark:bg-gray-950">
             <div
-                className="flex justify-center pt-24 pb-24">
+                className="flex flex-col lg:flex-row xl:flex-row  items-center justify-center pt-24 pb-6">
                 <div
-                    className="dark:bg-gray-900 bg-hoverSecondary p-2 pt-6 pb-6 rounded-lg shadow-lg text-center text-primary w-96">
+                    className="w-11/12 sm:w-9/12 md:w-96 lg:me-4 xl:me-4 items-center justify-center dark:bg-gray-900 bg-hoverSecondary p-2 pt-6 pb-6 rounded-lg shadow-lg text-center text-primary">
                     <LogoImage/>
-                    <h1 className="mt-4 text-xl text-secondary dark:text-primary font-bold">Event
-                        Check-In
-                        System</h1>
+                    <h1 className="mt-4 text-xl text-secondary dark:text-primary font-bold">
+                        Event Check-In System
+                    </h1>
                     <EventSelector
                         communities={communities}
                         selectedEvent={selectedEvent}
                         onSelect={setSelectedEvent}
                     />
                 </div>
-                <div className="ps-24">
-                    {selectedEvent && (
+                {selectedEvent && (
+                    <div className="flex items-center justify-center mt-8">
                         <EventSummary people={people}/>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
 
             {selectedEvent && (
                 <PeopleList people={people}/>
             )}
         </div>
-
     );
 };

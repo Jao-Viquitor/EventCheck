@@ -12,15 +12,18 @@ export const EventSummary = ({ people }) => {
 
     return (
         <div className="mb-4">
-            <h2 className="text-xl font-bold text-secondary dark:text-primary">Summary</h2>
-            <p className="text-sm text-secondary dark:text-primary mt-1 me-1">
-                People in the event right now: {peopleInEvent}</p>
-            <p className="text-sm text-secondary dark:text-primary whitespace-wrap mt-1 me-1" style={{ maxWidth: '350px' }}>
-                People by company in the event right now: {Object.entries(peopleByCompany).map(([companyName, count]) => (
-                    <span key={companyName}>{companyName} ({count}), </span>
-                ))}
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-secondary dark:text-primary">Summary</h2>
+            <p className="text-xs sm:text-sm lg:text-base text-secondary dark:text-primary mt-1 me-1">
+                People in the event right now: {peopleInEvent}
             </p>
-            <p className="text-sm text-secondary dark:text-primary mt-1">People not checked-in: {peopleNotCheckedIn}</p>
+            <p className="text-xs sm:text-sm lg:text-base text-secondary dark:text-primary mt-1 me-1 whitespace-pre-line break-words">
+                People by company in the event right now: {Object.entries(peopleByCompany).map(([companyName, count]) => (
+                <span key={companyName}>{companyName} ({count}), </span>
+            ))}
+            </p>
+            <p className="text-xs sm:text-sm lg:text-base text-secondary dark:text-primary mt-1">
+                People not checked-in: {peopleNotCheckedIn}
+            </p>
         </div>
     );
 };
