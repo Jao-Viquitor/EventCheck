@@ -49,7 +49,7 @@ export const App = () => {
             <div
                 className="flex flex-col lg:flex-row xl:flex-row  items-center justify-center pt-24 pb-6">
                 <div
-                    className="w-11/12 sm:w-9/12 md:w-96 lg:me-4 xl:me-4 items-center justify-center dark:bg-gray-900 bg-hoverSecondary p-2 pt-6 pb-6 rounded-lg shadow-lg text-center text-primary">
+                    className="w-11/12 sm:w-11/12 md:w-96 lg:me-4 xl:me-4 items-center justify-center dark:bg-gray-900 bg-hoverSecondary p-2 pt-6 pb-6 rounded-lg shadow-lg text-center text-primary">
                     <LogoImage/>
                     <h1 className="mt-4 text-xl text-secondary dark:text-primary font-bold">
                         Event Check-In System
