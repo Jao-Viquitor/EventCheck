@@ -82,10 +82,11 @@ export const PeopleList = ({ people }) => {
     };
 
     const filteredPeople = people.filter(person => {
-        const matchesSearchQuery = person.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            person.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            person.companyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            person.title.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearchQuery =
+            (person.firstName && person.firstName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+            (person.lastName && person.lastName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+            (person.companyName && person.companyName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+            (person.title && person.title.toLowerCase().includes(searchQuery.toLowerCase()));
 
         const matchesFilter = filter === 'all' ||
             (filter === 'checkedIn' && person.checkInDate) ||
